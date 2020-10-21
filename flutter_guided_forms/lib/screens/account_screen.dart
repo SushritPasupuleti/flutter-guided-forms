@@ -27,12 +27,12 @@ class _AccountPageState extends State<AccountPage> {
 
   StepperType stepperType = StepperType.horizontal;
 
-    switchStepType() {
-      debugPrint("Switching Stepper Type");
-      setState(() => stepperType == StepperType.horizontal
-          ? stepperType = StepperType.vertical
-          : stepperType = StepperType.horizontal);
-    }
+  switchStepType() {
+    debugPrint("Switching Stepper Type");
+    setState(() => stepperType == StepperType.horizontal
+        ? stepperType = StepperType.vertical
+        : stepperType = StepperType.horizontal);
+  }
 
   List<Step> steps = [
     Step(
@@ -81,44 +81,45 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return new Scaffold(
       appBar: AppBar(
         title: Text('Create an account'),
       ),
-      body: Column(
-        children: <Widget>[
-          complete
-              ? Expanded(
-                  child: Center(
-                    child: AlertDialog(
-                      title: new Text("Profile Created"),
-                      content: new Text(
-                        "Tada!",
-                      ),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text("Close"),
-                          onPressed: () {
-                            setState(() => complete = false);
-                          },
+      body: SafeArea(
+        minimum: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            complete
+                ? Expanded(
+                    child: Center(
+                      child: AlertDialog(
+                        title: new Text("Profile Created"),
+                        content: new Text(
+                          "Tada!",
                         ),
-                      ],
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              setState(() => complete = false);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : Expanded(
+                    child: Stepper(
+                      type: stepperType,
+                      steps: steps,
+                      currentStep: currentStep,
+                      onStepContinue: next,
+                      onStepTapped: (step) => goTo(step),
+                      onStepCancel: cancel,
                     ),
                   ),
-                )
-              : Expanded(
-                  child: Stepper(
-                    type: stepperType,
-                    steps: steps,
-                    currentStep: currentStep,
-                    onStepContinue: next,
-                    onStepTapped: (step) => goTo(step),
-                    onStepCancel: cancel,
-                  ),
-                ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.list),

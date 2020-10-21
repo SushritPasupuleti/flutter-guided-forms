@@ -6,6 +6,25 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
+  int currentStep = 0;
+  bool complete = false;
+
+  next() {
+    currentStep + 1 != steps.length
+        ? goTo(currentStep + 1)
+        : setState(() => complete = true);
+  }
+
+  cancel() {
+    if (currentStep > 0) {
+      goTo(currentStep - 1);
+    }
+  }
+
+  goTo(int step) {
+    setState(() => currentStep = step);
+  }
+
   List<Step> steps = [
     Step(
       title: const Text('New Account'),
@@ -61,8 +80,12 @@ class _AccountPageState extends State<AccountPage> {
           Expanded(
             child: Stepper(
               steps: steps,
+              currentStep: currentStep,
+              onStepContinue: next,
+              onStepTapped: (step) => goTo(step),
+              onStepCancel: cancel,
             ),
           ),
         ]));
-    }
   }
+}

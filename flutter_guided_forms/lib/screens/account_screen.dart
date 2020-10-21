@@ -25,13 +25,13 @@ class _AccountPageState extends State<AccountPage> {
     setState(() => currentStep = step);
   }
 
-  StepperType stepperType = StepperType.horizontal;
+  StepperType stepperType = StepperType.vertical;
 
   switchStepType() {
     debugPrint("Switching Stepper Type");
-    setState(() => stepperType == StepperType.horizontal
+    setState(() => stepperType == StepperType.vertical
         ? stepperType = StepperType.vertical
-        : stepperType = StepperType.horizontal);
+        : stepperType = StepperType.vertical);
   }
 
   List<Step> steps = [

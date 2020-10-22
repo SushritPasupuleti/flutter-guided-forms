@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guided_forms/screens/account_screen.dart';
+import 'package:flutter_guided_forms/screens/moving_stepper.dart';
 import 'package:flutter_guided_forms/screens/validated_form.dart';
 
 void main() {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ValidatedForm()//AccountPage(),
+      home: MovingStepper()//AccountPage(),
     );
   }
 }

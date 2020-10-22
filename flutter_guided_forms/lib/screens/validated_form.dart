@@ -44,6 +44,7 @@ class StepperBody extends StatefulWidget {
 
 class _StepperBodyState extends State<StepperBody> {
   int currStep = 0;
+  bool _nameError = false;
   static var _focusNode = FocusNode();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static MyData data = MyData();
@@ -63,13 +64,20 @@ class _StepperBodyState extends State<StepperBody> {
     super.dispose();
   }
 
+  void _setNameError(bool nameError) {
+    setState(() {
+      _nameError = nameError;
+    });
+  }
+
   List<Step> steps = [
     Step(
         title: const Text('Name!'),
         subtitle: const Text('Your name'),
         isActive: true,
         //state: StepState.error,
-        state: StepState.indexed,
+        state: (_nameError ? StepState.indexed : StepState.error),
+        //state: StepState.indexed,
         content: Form(
           key: formKeys[0],
           child: Column(
@@ -85,8 +93,10 @@ class _StepperBodyState extends State<StepperBody> {
                 //initialValue: 'Aseem Wangoo',
                 validator: (value) {
                   if (value.isEmpty || value.length < 1) {
+                    //_setNameError(true);
                     return 'Please enter name';
                   }
+                  return null;
                 },
                 decoration: InputDecoration(
                     labelText: 'Enter your name',
@@ -261,21 +271,28 @@ class _StepperBodyState extends State<StepperBody> {
               if (formKeys[currStep].currentState.validate()) {
                 if (currStep < steps.length - 1) {
                   currStep = currStep + 1;
+                  if (currStep == 2) {
+                  print('First Step False');
+                  //print('object' + FocusScope.of(context).toStringDeep());
+                  setState(() {
+                    _nameError = false;
+                  });
+                }
                 } else {
                   currStep = 0;
                 }
+              } else {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text('$currStep')));
+
+                if (currStep == 1) {
+                  print('First Step True');
+                  //print('object' + FocusScope.of(context).toStringDeep());
+                  setState(() {
+                    _nameError = true;
+                  });
+                }
               }
-              // else {
-              // Scaffold
-              //     .of(context)
-              //     .showSnackBar( SnackBar(content:  Text('$currStep')));
-
-              // if (currStep == 1) {
-              //   print('First Step');
-              //   print('object' + FocusScope.of(context).toStringDeep());
-              // }
-
-              // }
             });
           },
           onStepCancel: () {

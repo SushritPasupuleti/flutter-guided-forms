@@ -45,7 +45,7 @@ class StepperBody extends StatefulWidget {
 class _StepperBodyState extends State<StepperBody> {
 
   int _current;
-
+  bool _nameError = false;
   List<StepState> _listState;
   static MyData data = MyData();
 
@@ -56,6 +56,7 @@ class _StepperBodyState extends State<StepperBody> {
       StepState.indexed,
       StepState.editing,
       StepState.complete,
+      StepState.error,
     ];
     super.initState();
   }
@@ -63,9 +64,12 @@ class _StepperBodyState extends State<StepperBody> {
   List<Step> _createSteps(BuildContext context) {
     List<Step> _steps = <Step>[
       new Step(
-        state: _current == 0
-            ? _listState[1]
-            : _current > 0 ? _listState[2] : _listState[0],
+        // state: _current == 0
+        //     ? _listState[1]
+        //     : _current > 0 ? _listState[2] : _listState[0],
+        state: _current == 0 ? (_listState[1]) 
+        : (_current > 0 
+        ? (_nameError ? (_listState[3]) : (_listState[2])) : _listState[0]),
         title: new Text('Step 1'),
         content: Form(
           key: formKeys[0],
@@ -104,7 +108,32 @@ class _StepperBodyState extends State<StepperBody> {
             ? _listState[1]
             : _current > 1 ? _listState[2] : _listState[0],
         title: new Text('Step 2'),
-        content: new Text('Do Something'),
+        content: Form(
+          key: formKeys[1],
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                keyboardType: TextInputType.phone,
+                autocorrect: false,
+                validator: (value) {
+                  if (value.isEmpty || value.length < 10) {
+                    return 'Please enter valid number';
+                  }
+                },
+                onSaved: (String value) {
+                  data.phone = value;
+                },
+                maxLines: 1,
+                decoration: InputDecoration(
+                    labelText: 'Enter your number',
+                    hintText: 'Enter a number',
+                    icon: const Icon(Icons.phone),
+                    labelStyle:
+                        TextStyle(decorationStyle: TextDecorationStyle.solid)),
+              ),
+            ],
+          ),
+        ),
         isActive: true,
       ),
       new Step(
@@ -141,12 +170,12 @@ class _StepperBodyState extends State<StepperBody> {
               if (formKeys[_current].currentState.validate()) {
                 if (_current < _stepList.length - 1) {
                   _current = _current + 1;
-                  if (_current == 2) {
+                  if (_current == 1) {
                   print('First Step False');
                   //print('object' + FocusScope.of(context).toStringDeep());
-                  // setState(() {
-                  //   _nameError = false;
-                  // });
+                  setState(() {
+                    _nameError = false;
+                  });
                 }
                 } else {
                   _current = 0;
@@ -155,12 +184,12 @@ class _StepperBodyState extends State<StepperBody> {
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text('$_current')));
 
-                if (_current == 1) {
+                if (_current == 0) {
                   print('First Step True');
                   //print('object' + FocusScope.of(context).toStringDeep());
-                  // setState(() {
-                  //   _nameError = true;
-                  // });
+                  setState(() {
+                    _nameError = true;
+                  });
                 }
               }
             });

@@ -76,8 +76,8 @@ class _StepperBodyState extends State<StepperBody> {
         subtitle: const Text('Your name'),
         isActive: true,
         //state: StepState.error,
-        state: (_nameError ? StepState.indexed : StepState.error),
-        //state: StepState.indexed,
+        //state: (_nameError ? StepState.indexed : StepState.error),
+        state: StepState.indexed,
         content: Form(
           key: formKeys[0],
           child: Column(

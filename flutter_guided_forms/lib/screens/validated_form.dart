@@ -65,8 +65,8 @@ class _StepperBodyState extends State<StepperBody> {
 
   List<Step> steps = [
     Step(
-        title: const Text('Name'),
-        //subtitle: const Text('Enter your name'),
+        title: const Text('Name!'),
+        subtitle: const Text('Your name'),
         isActive: true,
         //state: StepState.error,
         state: StepState.indexed,

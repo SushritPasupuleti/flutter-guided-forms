@@ -294,7 +294,7 @@ class _StepperBodyState extends State<StepperBody> {
           },
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: RaisedButton(
             child: Text(
               'Save details',

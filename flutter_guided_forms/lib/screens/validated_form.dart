@@ -43,6 +43,11 @@ class StepperBody extends StatefulWidget {
 }
 
 class _StepperBodyState extends State<StepperBody> {
+
+  int _current;
+
+  List<StepState> _listState;
+
   int currStep = 0;
   bool _nameError = false;
   static var _focusNode = FocusNode();

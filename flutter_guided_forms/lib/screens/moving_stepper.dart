@@ -43,7 +43,6 @@ class StepperBody extends StatefulWidget {
 }
 
 class _StepperBodyState extends State<StepperBody> {
-
   int _current;
   bool _nameError = false;
   List<StepState> _listState;
@@ -67,10 +66,13 @@ class _StepperBodyState extends State<StepperBody> {
         // state: _current == 0
         //     ? _listState[1]
         //     : _current > 0 ? _listState[2] : _listState[0],
-        state: _current == 0 ? (_listState[1]) 
-        : (_current > 0 
-        ? (_nameError ? (_listState[3]) : (_listState[2])) : _listState[0]),
+        state: _current == 0
+            ? (_listState[1])
+            : (_current > 0
+                ? (_nameError ? (_listState[3]) : (_listState[2]))
+                : _listState[0]),
         title: new Text('Step 1'),
+        subtitle: new Text('Description of Step 1'),
         content: Form(
           key: formKeys[0],
           child: Column(
@@ -106,8 +108,11 @@ class _StepperBodyState extends State<StepperBody> {
       new Step(
         state: _current == 1
             ? _listState[1]
-            : _current > 1 ? _listState[2] : _listState[0],
+            : _current > 1
+                ? _listState[2]
+                : _listState[0],
         title: new Text('Step 2'),
+        subtitle: new Text('Description of Step 2'),
         content: Form(
           key: formKeys[1],
           child: Column(
@@ -139,8 +144,11 @@ class _StepperBodyState extends State<StepperBody> {
       new Step(
         state: _current == 2
             ? _listState[1]
-            : _current > 2 ? _listState[2] : _listState[0],
+            : _current > 2
+                ? _listState[2]
+                : _listState[0],
         title: new Text('Step 3'),
+        subtitle: new Text('Description of Step 3'),
         content: new Text('Do Something'),
         isActive: true,
       ),
@@ -167,33 +175,33 @@ class _StepperBodyState extends State<StepperBody> {
                   currentStep: _current,
                   onStepContinue: () {
                     setState(() {
-              if (formKeys[_current].currentState.validate()) {
-                if (_current < _stepList.length - 1) {
-                  _current = _current + 1;
-                  if (_current == 1) {
-                  print('First Step False');
-                  //print('object' + FocusScope.of(context).toStringDeep());
-                  setState(() {
-                    _nameError = false;
-                  });
-                }
-                } else {
-                  _current = 0;
-                }
-              } else {
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text('$_current')));
+                      if (formKeys[_current].currentState.validate()) {
+                        if (_current < _stepList.length - 1) {
+                          _current = _current + 1;
+                          if (_current == 1) {
+                            print('First Step False');
+                            //print('object' + FocusScope.of(context).toStringDeep());
+                            setState(() {
+                              _nameError = false;
+                            });
+                          }
+                        } else {
+                          _current = 0;
+                        }
+                      } else {
+                        Scaffold.of(context)
+                            .showSnackBar(SnackBar(content: Text('$_current')));
 
-                if (_current == 0) {
-                  print('First Step True');
-                  //print('object' + FocusScope.of(context).toStringDeep());
-                  setState(() {
-                    _nameError = true;
-                  });
-                }
-              }
-            });
-          },
+                        if (_current == 0) {
+                          print('First Step True');
+                          //print('object' + FocusScope.of(context).toStringDeep());
+                          setState(() {
+                            _nameError = true;
+                          });
+                        }
+                      }
+                    });
+                  },
                   onStepCancel: () {
                     setState(() {
                       if (_current > 0) {
@@ -207,6 +215,29 @@ class _StepperBodyState extends State<StepperBody> {
                   onStepTapped: (int i) {
                     setState(() {
                       _current = i;
+                    });
+                    setState(() {
+                      if (formKeys[_current].currentState.validate()) {
+                        //_current = _current + 1;
+                        if (_current == 1) {
+                          print('First Step False');
+                          //print('object' + FocusScope.of(context).toStringDeep());
+                          setState(() {
+                            _nameError = false;
+                          });
+                        }
+                      } else {
+                        Scaffold.of(context)
+                            .showSnackBar(SnackBar(content: Text('$_current')));
+
+                        if (_current == 0) {
+                          print('First Step True');
+                          //print('object' + FocusScope.of(context).toStringDeep());
+                          setState(() {
+                            _nameError = true;
+                          });
+                        }
+                      }
                     });
                   },
                 ),

@@ -24,7 +24,7 @@ class MyData {
 class MovingStepperScreenMode extends State<MovingStepper> {
   @override
   Widget build(BuildContext context) {
-    return  StepperBody();
+    return StepperBody();
   }
 }
 
@@ -38,6 +38,8 @@ class _StepperBodyState extends State<StepperBody> {
   bool _nameError = false;
   List<StepState> _listState;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final numberController = TextEditingController();
 
   static MyData data = MyData();
 
@@ -51,6 +53,14 @@ class _StepperBodyState extends State<StepperBody> {
       StepState.error,
     ];
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    nameController.dispose();
+    numberController.dispose();
+    super.dispose();
   }
 
   List<Step> _createSteps(BuildContext context) {
@@ -71,6 +81,7 @@ class _StepperBodyState extends State<StepperBody> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                controller: nameController,
                 keyboardType: TextInputType.text,
                 autocorrect: false,
                 onSaved: (String value) {
@@ -112,6 +123,7 @@ class _StepperBodyState extends State<StepperBody> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                controller: numberController,
                 keyboardType: TextInputType.phone,
                 autocorrect: false,
                 validator: (value) {
@@ -143,7 +155,32 @@ class _StepperBodyState extends State<StepperBody> {
                 : _listState[0],
         title: new Text('Step 3'),
         //subtitle: new Text('Description of Step 3'),
-        content: new Text('Do Something'),
+        content: Form(
+          key: formKeys[2],
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                validator: (value) {
+                  if (value.isEmpty || !value.contains('@')) {
+                    return 'Please enter valid email';
+                  }
+                },
+                onSaved: (String value) {
+                  data.email = value;
+                },
+                maxLines: 1,
+                decoration: InputDecoration(
+                    labelText: 'Enter your email',
+                    hintText: 'Enter a email address',
+                    icon: const Icon(Icons.email),
+                    labelStyle:
+                        TextStyle(decorationStyle: TextDecorationStyle.solid)),
+              ),
+            ],
+          ),
+        ),
         isActive: true,
       ),
     ];
@@ -183,8 +220,8 @@ class _StepperBodyState extends State<StepperBody> {
                           _current = 0;
                         }
                       } else {
-                        Scaffold.of(context)
-                            .showSnackBar(SnackBar(content: Text('$_current')));
+                        // Scaffold.of(context)
+                        //     .showSnackBar(SnackBar(content: Text('$_current')));
 
                         if (_current == 0) {
                           print('First Step True');
@@ -221,8 +258,8 @@ class _StepperBodyState extends State<StepperBody> {
                           });
                         }
                       } else {
-                        Scaffold.of(context)
-                            .showSnackBar(SnackBar(content: Text('$_current')));
+                        // Scaffold.of(context)
+                        //     .showSnackBar(SnackBar(content: Text('$_current')));
 
                         if (_current == 0) {
                           print('First Step True');

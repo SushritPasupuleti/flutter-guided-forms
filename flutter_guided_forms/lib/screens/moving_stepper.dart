@@ -24,16 +24,7 @@ class MyData {
 class MovingStepperScreenMode extends State<MovingStepper> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.lightGreen,
-        ),
-        home: Scaffold(
-          appBar: AppBar(
-            title: Text('Steppers'),
-          ),
-          body: StepperBody(),
-        ));
+    return  StepperBody();
   }
 }
 
@@ -46,6 +37,8 @@ class _StepperBodyState extends State<StepperBody> {
   int _current;
   bool _nameError = false;
   List<StepState> _listState;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   static MyData data = MyData();
 
   @override
@@ -72,7 +65,7 @@ class _StepperBodyState extends State<StepperBody> {
                 ? (_nameError ? (_listState[3]) : (_listState[2]))
                 : _listState[0]),
         title: new Text('Step 1'),
-        subtitle: new Text('Description of Step 1'),
+        //subtitle: new Text('Description of Step 1'),
         content: Form(
           key: formKeys[0],
           child: Column(
@@ -82,6 +75,7 @@ class _StepperBodyState extends State<StepperBody> {
                 autocorrect: false,
                 onSaved: (String value) {
                   data.name = value;
+                  debugPrint("Saving");
                 },
                 maxLines: 1,
                 //initialValue: 'Aseem Wangoo',
@@ -112,7 +106,7 @@ class _StepperBodyState extends State<StepperBody> {
                 ? _listState[2]
                 : _listState[0],
         title: new Text('Step 2'),
-        subtitle: new Text('Description of Step 2'),
+        //subtitle: new Text('Description of Step 2'),
         content: Form(
           key: formKeys[1],
           child: Column(
@@ -148,7 +142,7 @@ class _StepperBodyState extends State<StepperBody> {
                 ? _listState[2]
                 : _listState[0],
         title: new Text('Step 3'),
-        subtitle: new Text('Description of Step 3'),
+        //subtitle: new Text('Description of Step 3'),
         content: new Text('Do Something'),
         isActive: true,
       ),
@@ -170,7 +164,7 @@ class _StepperBodyState extends State<StepperBody> {
             children: <Widget>[
               Expanded(
                 child: Stepper(
-                  type: StepperType.vertical,
+                  type: StepperType.horizontal,
                   steps: _stepList,
                   currentStep: _current,
                   onStepContinue: () {
